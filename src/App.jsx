@@ -89,7 +89,7 @@ const App = () => {
   return (
     <div className="w-full h-screen flex justify-center items-center">
       <section className="flex justify-center flex-col items-center">
-        <div className="flex items-center p-1">
+        <div className=" items-center p-1 hidden sm:flex">
           <button
             onClick={() => settotalRows(+inputValue)}
             className="mb-6 border border-sky-950 text-sky-200 mr-2 text-sm rounded-lg w-20 block p-2.5 bg-sky-950 "
