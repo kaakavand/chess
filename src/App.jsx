@@ -2,19 +2,16 @@ import React, { useEffect, useState } from "react";
 import { PiCastleTurretFill } from "react-icons/pi";
 
 const App = () => {
-  const [totalRows, settotalRows] = useState(5);
+  const [totalRows, settotalRows] = useState(4);
   const [position, setPosition] = useState({ position: null, type: true });
   const [Rows, setRows] = useState([]);
   const [inputValue, setInputValue] = useState("");
-  
-  
-  useEffect(() => {
 
+  useEffect(() => {
     // window.addEventListener("keydown", (e) => {
     //     if (position.position) {
     //       const item = position.position.split("*");
-    
-    
+
     //       if (e.key === "ArrowUp") {
     //         if(+item[0] !== 1){
     //             setPosition({ position: `${+item[0] - 1}*${+item[1]}`, type: true });
@@ -53,7 +50,7 @@ const App = () => {
   function positionHandler(value) {
     if (value) {
       const arr = [value];
-      for (let i = 0; i < 50; i++) {
+      for (let i = 0; i < totalRows + 15; i++) {
         const block = arr[arr.length - 1].split("*");
         if (
           Number(block[0]) !== totalRows + 1 &&
@@ -69,7 +66,7 @@ const App = () => {
       }
 
       const reverse = [value];
-      for (let i = 0; i < 50; i++) {
+      for (let i = 0; i < totalRows + 15; i++) {
         const block = reverse[reverse.length - 1].split("*");
         if (
           Number(block[0]) !== totalRows + 1 &&
@@ -91,7 +88,7 @@ const App = () => {
 
   return (
     <div className="w-full h-screen flex justify-center items-center">
-      <section>
+      <section className="flex justify-center flex-col items-center">
         <div className="flex items-center p-1">
           <button
             onClick={() => settotalRows(+inputValue)}
@@ -101,13 +98,18 @@ const App = () => {
           </button>
           <input
             type="number"
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                settotalRows(+inputValue);
+              }
+            }}
             onChange={({ target }) => setInputValue(target.value)}
             className="mb-6 text-sky-200 text-sm rounded-lg block w-full p-2.5 bg-gray-700 outline-none focus:border-2 border-2 border-sky-950"
           />
         </div>
-        {Rows.map((el , i) => (
+        {Rows.map((el, i) => (
           <div key={i} className="flex">
-            {el.map((item , index) => (
+            {el.map((item, index) => (
               <span
                 onClick={() => setPosition(item)}
                 key={index}
