@@ -91,16 +91,17 @@ const App = () => {
       <section className="flex justify-center flex-col items-center">
         <div className=" items-center p-1 hidden sm:flex">
           <button
-            onClick={() => settotalRows(+inputValue)}
+            onClick={() => settotalRows(+inputValue > 8 ? 8 : +inputValue)}
             className="mb-6 border border-sky-950 text-sky-200 mr-2 text-sm rounded-lg w-20 block p-2.5 bg-sky-950 "
           >
             Confirm
           </button>
           <input
             type="number"
+            
             onKeyDown={(e) => {
               if (e.key === "Enter") {
-                settotalRows(+inputValue);
+                settotalRows(+inputValue > 8 ? 8 : +inputValue);
               }
             }}
             onChange={({ target }) => setInputValue(target.value)}
