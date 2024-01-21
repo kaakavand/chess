@@ -4,7 +4,7 @@ import positionHandler from "../functions/positionHandler";
 import keyDownHandler from "../functions/keyDownHandler";
 
 const App = () => {
-  const [totalRows, settotalRows] = useState(4);
+  const [totalRows, settotalRows] = useState(8);
   const [position, setPosition] = useState<any>({ position: null, type: true });
   const [Rows, setRows] = useState<any[]>([]);
   const [inputValue, setInputValue] = useState("");
@@ -41,7 +41,7 @@ const App = () => {
   return (
     <div className="w-full h-screen flex justify-center items-center">
       <section className="flex justify-center flex-col items-center">
-        <div className=" items-center p-1 hidden sm:flex">
+        {/* <div className=" items-center p-1 hidden sm:flex">
           <button
             onClick={() => settotalRows(+inputValue > 8 ? 8 : +inputValue)}
             className="mb-6 border border-sky-950 text-sky-200 mr-2 text-sm rounded-lg w-20 block p-2.5 bg-sky-950 "
@@ -58,14 +58,14 @@ const App = () => {
             onChange={({ target }) => setInputValue(target.value)}
             className="mb-6 text-sky-200 text-sm rounded-lg block w-full p-2.5 bg-gray-700 outline-none focus:border-2 border-2 border-sky-950"
           />
-        </div>
+        </div> */}
         {Rows.map((el, i) => (
           <div key={i} className="flex">
             {el.map((item: any, index: number) => (
               <span
                 onClick={() => setPosition(item)}
                 key={index}
-                className="w-20 h-20 flex justify-center items-center rounded-md cursor-pointer hover:shadow-sm m-1 bg-sky-900 border shadow-xl border-sky-950 duration-300 hover:bg-sky-800"
+                className={`w-20 h-20 flex justify-center items-center rounded-md cursor-pointer hover:shadow-sm m-1 ${i % 2 === 0 ? "even:bg-sky-900" : "odd:bg-sky-900"} bg-sky-800 border shadow-xl border-sky-950 duration-300 hover:bg-sky-800`}
               >
                 {item.type === true ? (
                   <PiCastleTurretFill
