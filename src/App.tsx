@@ -1,34 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { PiCastleTurretFill } from "react-icons/pi";
+import positionHandler from "./positionHandler";
 
 const App = () => {
   const [totalRows, settotalRows] = useState(4);
-  const [position, setPosition] = useState({ position: null, type: true });
-  const [Rows, setRows] = useState([]);
+  const [position, setPosition] = useState<any>({ position: null, type: true });
+  const [Rows, setRows] = useState<any[]>([]);
   const [inputValue, setInputValue] = useState("");
 
   useEffect(() => {
-    // window.addEventListener("keydown", (e) => {
-    //     if (position.position) {
-    //       const item = position.position.split("*");
-
-    //       if (e.key === "ArrowUp") {
-    //         if(+item[0] !== 1){
-    //             setPosition({ position: `${+item[0] - 1}*${+item[1]}`, type: true });
-    //         }
-    //       } else if (e.key === "ArrowDown") {
-    //         if(+item[0] !== totalRows - 1){
-    //             setPosition({ position: `${+item[0] + 1}*${+item[1]}`, type: true });
-    //         }
-    //       } else if (e.key === "ArrowRight") {
-    //         setPosition({ position: `${+item[0]}*${+item[1] + 1}`, type: true });
-    //       } else if (e.key === "ArrowLedt") {
-    //         setPosition({ position: `${+item[0]}*${+item[1] + 1}`, type: true });
-    //       }
-    //     }
-    //   });
-
-    const activeBlock = positionHandler(position.position);
+    const activeBlock = positionHandler(position.position, totalRows);
     const arr = [];
     for (let i = 1; i < totalRows + 1; i++) {
       const list = [];
@@ -47,44 +28,20 @@ const App = () => {
     setRows(arr);
   }, [position, totalRows]);
 
-  function positionHandler(value) {
-    if (value) {
-      const arr = [value];
-      for (let i = 0; i < totalRows + 15; i++) {
-        const block = arr[arr.length - 1].split("*");
-        if (
-          Number(block[0]) !== totalRows + 1 &&
-          Number(block[1]) !== totalRows + 1
-        ) {
-          arr.push(`${Number(block[0]) + 1}*${Number(block[1]) + 1}`);
-        } else {
-          const block = arr[0].split("*");
-          if (Number(block[0]) !== 1 && Number(block[1]) !== 1) {
-            arr.unshift(`${Number(block[0]) - 1}*${Number(block[1]) - 1}`);
-          }
-        }
-      }
+  const handleUserKeyPress = useCallback(
+    (e: any) => {
+      console.log(position);
+     
+    },
+    [position]
+  );
 
-      const reverse = [value];
-      for (let i = 0; i < totalRows + 15; i++) {
-        const block = reverse[reverse.length - 1].split("*");
-        if (
-          Number(block[0]) !== totalRows + 1 &&
-          Number(block[1]) !== totalRows + 1
-        ) {
-          reverse.push(`${Number(block[0]) + 1}*${Number(block[1]) - 1}`);
-        } else {
-          const block = reverse[0].split("*");
-          if (Number(block[0]) !== 0 && Number(block[1]) !== 0) {
-            reverse.unshift(`${Number(block[0]) - 1}*${Number(block[1]) + 1}`);
-          }
-        }
-      }
-
-      return [...arr, ...reverse];
-    }
-    return [];
-  }
+  useEffect(() => {
+    window.addEventListener("keydown", handleUserKeyPress);
+    return () => {
+      window.removeEventListener("keydown", handleUserKeyPress);
+    };
+  }, [handleUserKeyPress]);
 
   return (
     <div className="w-full h-screen flex justify-center items-center">
@@ -98,7 +55,6 @@ const App = () => {
           </button>
           <input
             type="number"
-            
             onKeyDown={(e) => {
               if (e.key === "Enter") {
                 settotalRows(+inputValue > 8 ? 8 : +inputValue);
@@ -110,7 +66,7 @@ const App = () => {
         </div>
         {Rows.map((el, i) => (
           <div key={i} className="flex">
-            {el.map((item, index) => (
+            {el.map((item: any, index: number) => (
               <span
                 onClick={() => setPosition(item)}
                 key={index}
