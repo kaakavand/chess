@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { PiCastleTurretFill } from "react-icons/pi";
-import positionHandler from "./positionHandler";
+import positionHandler from "../functions/positionHandler";
+import keyDownHandler from "../functions/keyDownHandler";
 
 const App = () => {
   const [totalRows, settotalRows] = useState(4);
@@ -28,13 +29,7 @@ const App = () => {
     setRows(arr);
   }, [position, totalRows]);
 
-  const handleUserKeyPress = useCallback(
-    (e: any) => {
-      console.log(position);
-     
-    },
-    [position]
-  );
+  const handleUserKeyPress = useCallback((e : any) => keyDownHandler(totalRows , setPosition , position , e), [position]);
 
   useEffect(() => {
     window.addEventListener("keydown", handleUserKeyPress);
